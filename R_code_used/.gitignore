@@ -1,0 +1,12 @@
+# ignora tutto
+*
+
+# ma non queste cartelle (e tutto ciò che contengono)
+!Between_cluster_analysis/
+!Between_cluster_analysis/**
+
+!Univariate_analysis/
+!Univariate_analysis/**
+
+!Within_cluster_analysis/
+!Within_cluster_analysis/**
