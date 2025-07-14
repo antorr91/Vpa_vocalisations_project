@@ -1,3 +1,7 @@
+# non ignorare il .gitignore dentro R_code_used
+!R_code_used/.gitignore
+
+
 # ignora tutto
 *
 
