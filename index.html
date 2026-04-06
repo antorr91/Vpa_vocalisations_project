@@ -15,7 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f0f2f5;
             min-height: 100vh;
         }
         
@@ -35,44 +35,16 @@
             color: white;
             padding: 40px 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.05) 10px,
-                rgba(255,255,255,0.05) 20px
-            );
-            animation: wave 20s linear infinite;
-        }
-        
-        @keyframes wave {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
         }
         
         header p {
             font-size: 1.2em;
             opacity: 0.9;
-            position: relative;
-            z-index: 1;
         }
         
         .nav-tabs {
@@ -146,6 +118,14 @@
             border-radius: 8px;
             border: 1px solid #dee2e6;
             margin: 20px 0;
+        }
+
+        .abstract p {
+            margin-bottom: 12px;
+        }
+
+        .abstract p:last-child {
+            margin-bottom: 0;
         }
         
         .features-grid {
@@ -238,7 +218,7 @@
             max-width: 250px;
             height: 150px;
             background: #e9ecef;
-            border: 2px dashed #6c757d;
+            border: 2px solid #005f73;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -260,23 +240,7 @@
             margin: 10px 0;
         }
         
-        footer {
-            background: linear-gradient(135deg, #003c45 0%, #005f73 100%);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        footer a {
-            color: #60a3bc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        footer a:hover {
-            color: #94d3ac;
-        }
-        
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -319,19 +283,27 @@
             <h2>Study Overview</h2>
             
             <div class="abstract">
-                <p>Early vocalisations in young animals, such as poultry chicks <i>(Gallus gallus)</i>, convey essential information about affective
-                    and behavioural states, being a major vehicle of communication within and between species. Traditional approaches to chick vocalisation 
-                    analysis have relied on manual annotation and subjective categorisation, limiting scalability and introducing perceptual biases.</p>
-                
-                <p>In this study, we propose a computational framework leveraging signal processing methods and machine learning techniques. This approach enables systematic 
-                    analysis of chick vocal repertoire structure through a three-stage pipeline that (i) automatically detects the onset and offset of individual chick calls, 
-                    (ii) extracts 20 statistical descriptors from multiple acoustic features for each segmented call, 
-                    (iii) applies clustering to uncover latent structure in the vocal repertoire and classify automatically calls of chicks.</p>
-                
-                <p>To validate our framework, and extend its applicability to answer biological questions, we used it to compare the vocalisations produced by chicks exposed to Valproic Acid - a compound that induces autistic-like symptoms - versus control chicks.
-                    Thanks to the fine-grained analysis of calls clustered in VPA (Valproic Acid) models through advanced computational analysis techniques, our work combines automated detection, feature extraction, and machine learning approaches to understand the neurobiological impacts on vocal behavior.</p>
+                <p>In young animals like poultry chicks (<i>Gallus gallus</i>), vocalisations convey information about affective and behavioural states. Traditional approaches to vocalisation analysis, relying on manual annotation and predefined categories, introduce biases, limit scalability, and fail to capture the full complexity of vocal repertoires.</p>
+
+                <p>We introduce a computational framework for automated detection, acoustic feature extraction, and unsupervised learning of chick vocalisations. Applying this framework to a dataset of newly hatched chicks, we identified two primary vocal clusters. We then tested our computational framework on an independent dataset of chicks exposed during embryonic development to vehicle or Valproic Acid (VPA), a compound that disrupts neural development and is linked to autistic-like symptoms.</p>
+
+                <p>Clustering analysis on the experimental dataset confirmed two primary vocal clusters and revealed systematic differences between groups. VPA-exposed chicks showed an altered repertoire, with a relative increase in softer calls. VPA differentially affected call clusters, modulating temporal, frequency, and energy domain features. Overall, VPA-exposed chicks produced vocalisations with shorter duration, reduced pitch variability, and modified energy profiles, with the strongest alterations observed in louder calls.</p>
+
+                <p>This study provides a computational framework for analysing animal vocalisations, advancing knowledge of early-life communication in typical and atypical vocal development.</p>
             </div>
             
+            <div style="margin: 0 0 30px 0; padding: 15px 20px; background: #f0f7f8; border-left: 4px solid #0a9396; border-radius: 0 8px 8px 0;">
+                <p style="font-size: 1em; color: #222; margin-bottom: 6px;">
+                    <strong>Embryonic Exposure to VPA Influences Chick Vocalisations: A Computational Study</strong>
+                </p>
+                <p style="font-size: 0.92em; color: #444; margin-bottom: 8px;">
+                    Antonella M. C. Torrisi, Inês Nolasco, Paola Sgadò, Elisabetta Versace, Emmanouil Benetos
+                </p>
+                <a href="https://arxiv.org/abs/2601.12203" target="_blank" class="github-button" style="margin-top: 0; font-size: 0.9em;">
+                    arXiv:2601.12203
+                </a>
+            </div>
+
             <h2>Framework Components</h2>
             <div class="features-grid">
                 <div class="feature-card">
@@ -566,29 +538,22 @@
             </div>
         </div>
         
-        <footer>
-            <p>&copy; 2025 Computational Framework for Chick Vocalisation Analysis</p>
-        </footer>
+
     </div>
     
     <script>
         function showTab(tabName) {
-            // Hide all tab contents
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => {
                 content.classList.remove('active');
             });
             
-            // Remove active class from all tabs
             const tabs = document.querySelectorAll('.nav-tab');
             tabs.forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
             event.target.classList.add('active');
         }
     </script>
