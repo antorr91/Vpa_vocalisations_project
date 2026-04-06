@@ -1,0 +1,123 @@
+# F1/F0 ratio - lmm model selection
+# Antonella Torrisi
+
+rm(list = ls())
+library(extrafont)
+loadfonts(device = "win")
+
+library(dplyr)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+library(readr)
+
+# load data
+setwd("/path/to/project")
+#setwd("C:\Users\anton\VPA_vocalisations_project\Results_Clustering")
+data_path <- file.path("data", "full_dataset_vpa_ctrl.csv")
+t <- read_csv(data_path)
+
+t <- t[complete.cases(t), ]
+
+t <- t %>%
+  mutate(
+    id                   = as.factor(id),
+    bin                  = as.factor(bin),
+    condition            = as.factor(condition),
+    cluster_membership_2 = as.factor(cluster_membership_2),
+    cluster_membership_3 = as.factor(cluster_membership_3)
+  )
+
+if ("1" %in% levels(t$bin)) t$bin <- relevel(t$bin, ref = "1")
+
+vars_needed <- c("F1_F0_Ratio", "bin", "condition", "cluster_membership_2", "id")
+t_complete  <- t[complete.cases(t[, vars_needed]), ]
+if (nrow(t_complete) == 0) stop("No complete cases for F1_F0_Ratio.")
+
+# model selection
+# full model: bin x condition x cluster
+model_1 <- lmer(F1_F0_Ratio ~ bin * condition * cluster_membership_2 + (1 | id),
+                data = t_complete)
+
+# drop bin x cluster interaction, keep bin x condition
+model_2 <- lmer(F1_F0_Ratio ~ bin * condition + cluster_membership_2 + (1 | id),
+                data = t_complete)
+anova(model_1, model_2) # non significant, drop three-way interaction
+
+# drop bin x condition interaction, keep condition x cluster
+model_3 <- lmer(F1_F0_Ratio ~ bin + condition * cluster_membership_2 + (1 | id),
+                data = t_complete)
+anova(model_1, model_3)
+
+# drop main effects, keep interactions only
+model_4 <- lmer(F1_F0_Ratio ~ bin:condition * cluster_membership_2 + (1 | id),
+                data = t_complete)
+anova(model_1, model_4)
+
+# three-way only, no two-way
+model_5 <- lmer(F1_F0_Ratio ~ bin:condition:cluster_membership_2 + (1 | id),
+                data = t_complete)
+anova(model_1, model_5)
+anova(model_5, model_4)
+
+# two-way interactions: bin x condition, bin x cluster, condition x cluster
+model_twoway <- lmer(F1_F0_Ratio ~ bin * condition + bin * cluster_membership_2 +
+                       condition * cluster_membership_2 + (1 | id),
+                     data = t_complete)
+# main effects only
+model_main <- lmer(F1_F0_Ratio ~ bin + condition + cluster_membership_2 + (1 | id),
+                   data = t_complete)
+anova(model_main, model_twoway) 
+
+# significant (chi2 = 14.93, p = 0.021), retain two-way interactions
+
+
+# VPA elevated F1/F0 ratio in cluster 0 (p = 0.033); cluster 1 is not significant (p = 0.548)
+
+
+model_full <- model_twoway
+
+print(summary(model_full))
+cat("AIC:", AIC(model_full))
+
+eta2_from_lrt <- function(lrt) {
+  if (is.na(lrt$Chisq[2]) || is.na(lrt$Df[2])) return(NA_real_)
+  lrt$Chisq[2] / (lrt$Chisq[2] + lrt$Df[2])
+}
+
+# cluster effect
+model_no_cluster <- lmer(F1_F0_Ratio ~ bin * condition + (1 | id), data = t_complete)
+lrt_cluster <- anova(model_no_cluster, model_full)
+print(lrt_cluster)
+cat("eta²:", eta2_from_lrt(lrt_cluster))
+
+# condition effect
+model_no_condition <- lmer(F1_F0_Ratio ~ bin * cluster_membership_2 + (1 | id), data = t_complete)
+lrt_condition <- anova(model_no_condition, model_full)
+print(lrt_condition)
+cat("eta²:", eta2_from_lrt(lrt_condition))
+
+# bin effect
+model_no_bin <- lmer(F1_F0_Ratio ~ condition * cluster_membership_2 + (1 | id), data = t_complete)
+lrt_bin <- anova(model_no_bin, model_full)
+print(lrt_bin)
+cat("eta²:", eta2_from_lrt(lrt_bin))
+
+# condition x cluster interaction
+model_no_interaction <- lmer(F1_F0_Ratio ~ bin + condition + cluster_membership_2 +
+                               bin:condition + bin:cluster_membership_2 +
+                               (1 | id),
+                             data = t_complete)
+lrt_inter <- anova(model_no_interaction, model_full)
+print(lrt_inter)
+cat("eta²:", eta2_from_lrt(lrt_inter))
+
+# posthoc
+print(pairs(emmeans(model_full, ~ cluster_membership_2), adjust = "tukey"))
+print(pairs(emmeans(model_full, ~ condition), adjust = "tukey"))
+
+emm_inter <- emmeans(model_full, ~ condition * cluster_membership_2)
+# clusters within condition
+print(pairs(emm_inter, by = "condition", adjust = "tukey"))
+# conditions within cluster
+print(pairs(emm_inter, by = "cluster_membership_2", adjust = "tukey"))
