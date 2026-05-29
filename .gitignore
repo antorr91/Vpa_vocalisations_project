@@ -1,0 +1,85 @@
+# =========================================
+# OS / IDE / system files
+# =========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================================
+# Python cache
+# =========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# =========================================
+# R temporary files (any depth)
+# =========================================
+**/.RData
+**/.Rhistory
+**/.Rapp.history
+**/.Rproj.user/
+**/*.Rproj
+Analytical_Framework/.Rhistory
+
+# =========================================
+# Untracked folders (data, results, manual annotations)
+# =========================================
+Automatic_calls_detected_070/
+automatic_calls_detected/
+Calls_reviewed_for_zenodo/
+Data/
+Data_reviewed/
+Features/
+Manual_annotation_VPA_validation_set/
+Offset_detection_results_benchmark/
+Offset_results/
+Old_code_not_upload/
+R_code_used/
+Results/
+Results_Clustering/
+Results_ICI/
+Results_R/
+Results_automatic/
+full_statistical_analysis/
+
+# =========================================
+# Untracked files at root (drafts, datasets, old code)
+# =========================================
+Bootstrap_manova.R
+Data_vpa_project.zip
+Features_Significant effects.docx
+Notebook_to_print_plots.ipynb
+Vpa_vocalisations_project.html
+data_dictionary.csv
+metadata_experimental_dataset_vocalisation_study_vpa_control_chicks.csv
+metadata_vpa_exp.csv
+salavtaggio_calls.py
+vpa_ctrl_dataset.csv
+vpa_ctrl_dataset_automated.csv
+
+# Old messy preprocessing scripts (replaced by cleaned versions in Computational_Framework/)
+/normalised function for audio.py
+/stereo_to_mono.py
+
+# =========================================
+# Old code in Computational_Framework/ (not part of the published pipeline)
+# =========================================
+Computational_Framework/Calls_rate_analysis_vpa_ctrl.py
+Computational_Framework/Classification_MLP_SVM_CTRL_VPA.py
+Computational_Framework/Clustering_HAC_vpa.py
+Computational_Framework/Code_merging_3_2_cluster_VPA_dataset.py
+Computational_Framework/Discard_calls_over_6_mins_VPA_dataset.py
+Computational_Framework/Full_analysis_features_vpa.R
+Computational_Framework/Full_analysis_features_vpa_2.R
+Computational_Framework/PCA_UMAP_CTRL_VPA.py
+Computational_Framework/preprocessing_vpa.py
+Computational_Framework/vpa_automated_analysis.py
+Computational_Framework/vpa_ctrl_features_analysis_utils.py
+Computational_Framework/vpa_paper.sty
