@@ -20,13 +20,13 @@ The pipeline takes normalised WAV files as input and produces:
 - unsupervised cluster assignments (no predefined call categories needed)
 - statistical comparisons between experimental groups
 
-We applied this framework to study how embryonic exposure to Valproic Acid (VPA) affects the vocal repertoire of newly hatched chicks. The pipeline detected systematic, call-type-specific differences between VPA-exposed and control chicks that would not be visible through manual annotation.
+We developed this pipeline (the **Computational Framework**) on a sample of untreated newly-hatched chicks, combining automated call detection, multi-feature acoustic analysis across temporal, frequency, and energy domains, and unsupervised clustering with the number of vocal categories selected via grid search over internal validity metrics (Silhouette Score, Calinski-Harabasz Index, WCSS). We then tested its generalisability on an independent dataset of VPA-exposed and control chicks (46 recordings), comparing the two groups via linear mixed-effects models (with the **Analytical Framework**). The framework revealed systematic, call-type-specific differences between groups.
 
 ![Pipeline overview](pipeline_overview.png)
 
 ## Detection performance
 
-The onset and offset detection methods were first tested on the development dataset (31 chicks) and then validated as a benchmark on the independent experimental dataset (46 chicks: 27 VPA, 19 control). Performance was evaluated against manual annotations using event-based metrics.
+The onset and offset detection methods were first tested on the development dataset (31 chicks) and then validated as a benchmark on the independent experimental dataset (46 chicks: 27 VPA, 19 control). Performance was evaluated against manual annotations using event-based metrics (Mesaros et al., 2016).
 
 | Dataset | Detection | Weighted F1 | Precision | Recall |
 |---------|-----------|-------------|-----------|--------|
@@ -74,7 +74,7 @@ install.packages(c("lme4", "lmerTest", "emmeans", "dplyr", "readr", "broom.mixed
 │   ├── update_features_csv.py                  # adds metadata (recording ID, call ID) to CSVs
 │   │
 │   │  # Step 3: Clustering
-│   ├── hierarchical_clustering_search_params.py  # Step 3a: grid search over K (HAC)
+│   ├── hierarchical_clustering_search_params.py  # Step 3a: grid search to find the optimal K using internal cluster validity metrics (Silhouette, CHI, WCSS)
 │   ├── Hierarchical_clustering_analysis.py     # Step 3b: applies HAC with chosen K + UMAP + spectrograms
 │   ├── clustering_utils.py                     # dendrogram, UMAP, radar plots, sampling
 │   ├── gmm_clustering_search_params.py         # grid search over K (GMM, for comparison)
@@ -170,7 +170,7 @@ A bandpass filter is applied first (default: 2000 to 15,000 Hz). Then, for each 
 | Domain | Features |
 |--------|----------|
 | Temporal | Call Duration, Attack Time, Envelope Slope |
-| Frequency | F0 Mean, F0 Std, F0 Kurtosis, F0 Skewness, F0 Bandwidth, F0 Slope, F0 1st Order Diff, F0 Mag Mean, F1 Mag Mean, F2 Mag Mean, F1/F0 Ratio, F2/F0 Ratio, Spectral Centroid Mean, Spectral Centroid Std, Attack Magnitude |
+| Frequency | F0 Mean, F0 Std, F0 Kurtosis, F0 Skewness, F0 Bandwidth, F0 Slope, F0 1st Order Diff, F0 Mag Mean, F1 Mag Mean, F2 Mag Mean, F1/F0 Ratio Mean, F2/F0 Ratio Mean, Spectral Centroid Mean, Spectral Centroid Std, Attack Magnitude |
 | Energy | RMS Mean, RMS Std |
 
 F0 is estimated via the pYIN algorithm. Harmonics (F1, F2) are derived from FFT. The signal envelope is computed via Hilbert transform. See `feature_extraction_functions.py` for the implementation of each feature.
