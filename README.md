@@ -50,7 +50,7 @@ The video-to-audio script also requires `ffmpeg` to be installed on the system (
 **R 4.3+**
 
 ```r
-install.packages(c("lme4", "lmerTest", "emmeans", "dplyr", "readr", "broom.mixed", "car", "ggplot2", "knitr"))
+install.packages(c("lme4", "lmerTest", "emmeans", "effectsize", "dplyr", "readr", "broom.mixed", "car", "ggplot2", "knitr"))
 ```
 
 ## Repository structure
@@ -83,14 +83,14 @@ install.packages(c("lme4", "lmerTest", "emmeans", "dplyr", "readr", "broom.mixed
 │   │  # Utilities
 │   ├── visualisation_features.py               # feature-level plots (spectrograms + overlays)
 │   ├── visualization.py                        # general plotting
-│   ├── utils.py                                # I/O, filtering, shared helpers
+│   ├── utils.py                                # I/O, filtering noise, shared helpers
 │   ├── save_results.py                         # export to CSV (Sonic Visualiser compatible)
 │   └── joint_time_frequency_scattering_coefficients.py  # experimental (not used in paper)
 │
 ├── Analytical_Framework/
 │   ├── Analyses_features/
 │   │   ├── Full_analyses_features_vpa_study.R            # LMM model fitting (all 20 features)
-│   │   ├── Statistical_analysis_2_clusters.R             # model selection via AIC
+│   │   ├── Lmm_acoustic_features_compute_partial_eta_squared.R  # model selection (LRT + AIC), LRTs on the full model,  FDR, partial eta-squared.
 │   │   ├── Statistical_analyses_2_clusters_with_post_tukey.R  # post-hoc pairwise comparisons
 │   │   ├── Analysis_Call_duration.R                      # per-feature scripts (one each):
 │   │   ├── Analysis_F0_std.R                             #   Call Duration, F0 Std, RMS Mean,
@@ -102,6 +102,7 @@ install.packages(c("lme4", "lmerTest", "emmeans", "dplyr", "readr", "broom.mixed
 │   │       └── Plot_extractions_features_clusters_2_3.R  # cluster comparison plots
 │   ├── Calls_frequency_analysis/
 │   │   ├── Analysis_number_distribution_ribbon.R         # call rate LMM
+│   │   ├── Lmm_number_of_calls_partial_eta_squared_analysis.R  # number of calls LMM, model selection, LRTs, partial eta-squared, post-hoc
 │   │   └── Number_calls_lmm_plots.R                     # call rate plots
 │   └── Multicollinearity/
 │       └── Multicollinearity_analysis.R                  # VIF, pairwise correlations, feature selection

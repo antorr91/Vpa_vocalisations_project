@@ -505,6 +505,8 @@ if __name__ == '__main__':
 
         # Check for false positives (noise)
         # all_data, false_pos = ut.detect_false_positives(all_data, save_path=save_folder)
+        # false_pos.to_csv(os.path.join(save_folder, 'removed_false_positives_' + chick_id + '.csv'), index=False)
+      
 
 
         # features_data, features_jtfs =jtfs.jtfs_coefficients(file, sr, min_freq_hz=2000, max_freq_hz=12600, max_dur_s=0.500, features_data=features_data)
