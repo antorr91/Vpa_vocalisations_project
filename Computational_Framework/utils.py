@@ -306,6 +306,16 @@ def segment_calls(audio, sr, onsets_sec, offsets_sec):
     return calls
 
 
+def detect_false_positives(df, f0_range=(2000, 8000), min_skew=-2.95, min_bw=7.00, max_slope=150000.31, max_f2=0.6, save_path=None):
+    # Detect false positives (noise) outside the range of chick calls
+    keep = df['F0 Mean'].between(*f0_range) & (df['F0 Skewness'] >= min_skew) & (df['F0 Bandwidth'] >= min_bw) & (df['F0 Slope'] <= max_slope) & (df['F2 Mag Mean'] <= max_f2)
+    calls, false_pos = df[keep], df[~keep]
+    print(f'removed false positives: {len(false_pos)}')
+    if save_path:
+        false_pos.to_csv(os.path.join(save_path, 'removed_false_positives.csv'), index=False)
+    return calls, false_pos
+
+
 def median_filter(signal, kernel_size=3):
     """
     Apply a 1D median filter to a multi-channel signal.

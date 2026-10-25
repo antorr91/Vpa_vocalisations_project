@@ -12,7 +12,7 @@ from onsets_offsets_detection_utils import  high_frequency_content, filter_calls
 
 # Parameters for the onset detection functions [ best and attuned to chicks vocalisation]
 HFC_parameters = {'hop_length': 441, 'sr':44100, 'spec_num_bands':15, 'spec_fmin': 2500, 'spec_fmax': 5000, 'spec_fref': 2800,
-                  'pp_threshold':  1.8, 'pp_pre_avg':25, 'pp_post_avg':1, 'pp_pre_max':3, 'pp_post_max':2,'global shift': 0.050, 'double_onset_correction': 0.1}
+                  'pp_threshold':  1.8, 'pp_pre_avg':25, 'pp_post_avg':1, 'pp_pre_max':3, 'pp_post_max':2,'global shift': 0.070, 'double_onset_correction': 0.1}
 
                   
 

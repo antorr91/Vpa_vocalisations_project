@@ -29,7 +29,6 @@ np.random.seed(42)
 
 
 
-
 def spectral_centroid(audio_fy, features_data, sr, frame_length, hop_length):
 
     ''' Compute the mean of the spectral centroid for each call in the audio file
@@ -504,6 +503,9 @@ if __name__ == '__main__':
         # # save locally features_data to a csv file
         features_data.to_csv(save_features_file, index=False)
 
+        # Check for false positives (noise)
+        # all_data, false_pos = ut.detect_false_positives(all_data, save_path=save_folder)
+
 
         # features_data, features_jtfs =jtfs.jtfs_coefficients(file, sr, min_freq_hz=2000, max_freq_hz=12600, max_dur_s=0.500, features_data=features_data)
 
@@ -525,3 +527,4 @@ if __name__ == '__main__':
         
     add_recording_callid_columns(save_folder)
     print('Features extracted successfully for all files')
+
